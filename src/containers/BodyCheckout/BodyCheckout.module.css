@@ -1,0 +1,11 @@
+.TableCheckout thead th {
+  text-align: center !important;
+}
+
+.TableCheckout tbody td {
+  text-align: center !important;
+}
+
+.BoxCheckoutBottom {
+  border-top: 3px solid #2d3034;
+}

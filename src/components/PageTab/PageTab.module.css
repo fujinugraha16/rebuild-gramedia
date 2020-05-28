@@ -1,0 +1,21 @@
+.PageTab {
+  margin-top: 20px;
+}
+
+.PageTab h2 {
+  font-weight: bold;
+}
+
+.PageTab h6 {
+  font-weight: 600;
+  margin: auto 0;
+  color: #abadac;
+}
+
+.PageTab b {
+  color: #234090;
+}
+
+.BoxTitle {
+  border-bottom: 3px solid #2d3034;
+}

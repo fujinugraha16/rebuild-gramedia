@@ -1,0 +1,20 @@
+.DetailBook {
+  margin-top: 50px;
+  margin-bottom: 40px;
+}
+
+.DetailBookBox {
+  width: 975px;
+}
+
+.DetailBook h3 {
+  font-weight: bold;
+}
+
+.BtnBorderLeft {
+  border-right: 1px solid gray;
+}
+
+.BtnBorderRight {
+  border-left: 1px solid gray;
+}

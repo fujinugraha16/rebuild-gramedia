@@ -1,0 +1,12 @@
+.Header {
+  padding: 12px 72px;
+  background-color: white;
+}
+
+.Header img {
+  width: 85%;
+}
+
+.Active {
+  font-weight: bold;
+}

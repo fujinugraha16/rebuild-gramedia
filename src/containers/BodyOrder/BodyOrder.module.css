@@ -1,0 +1,9 @@
+.CardOrder {
+  border-radius: 20px;
+  border: 1.5px solid #2d3034;
+}
+
+.CardHeaderOrder {
+  background-color: #2d3034 !important;
+  color: white;
+}

@@ -1,0 +1,21 @@
+.Top {
+  padding: 16px 72px;
+  background: #2d3034;
+  color: #c3cbcd;
+  font-size: 12px;
+}
+
+.Top h6 {
+  font-weight: bold;
+}
+
+.Top a {
+  color: #c3cbcd;
+}
+
+.Bottom {
+  padding: 12px 72px;
+  background: #234090;
+  color: white;
+  text-align: center;
+}
