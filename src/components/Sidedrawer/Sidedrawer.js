@@ -1,20 +1,36 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { Row, Col, ListGroup, ListGroupItem, Input } from "reactstrap";
 
 import classes from "./Sidedrawer.module.css";
 
+import * as actionCreators from "../../store/actions";
+
 class Sidedrawer extends Component {
+  onSearchChangeHandler = (event) => {
+    this.props.onSearchBooks(event.target.value);
+  };
+
   render() {
-    return (
-      <div className={classes.Sidedrawer}>
+    const inputSearch =
+      this.props.match.path === "/" ? (
         <Row>
           <Col xs="9">
             <Input
               className={classes.Input}
               placeholder="Search : Title, Author ..."
+              onChange={this.onSearchChangeHandler}
             />
           </Col>
         </Row>
+      ) : (
+        ""
+      );
+
+    return (
+      <div className={classes.Sidedrawer}>
+        {inputSearch}
         <ListGroup className={classes.List}>
           <ListGroupItem tag="a" href="#" action>
             <strong>Popular Subject</strong>
@@ -40,4 +56,10 @@ class Sidedrawer extends Component {
   }
 }
 
-export default Sidedrawer;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSearchBooks: (keyword) => dispatch(actionCreators.searchBooks(keyword)),
+  };
+};
+
+export default withRouter(connect(null, mapDispatchToProps)(Sidedrawer));

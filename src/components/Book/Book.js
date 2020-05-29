@@ -13,18 +13,21 @@ import classes from "./Book.module.css";
 import Cover from "../../assets/Images/cover.svg";
 import Star from "../../assets/Icon/star-group.svg";
 
-const book = () => {
+const book = (props) => {
   return (
     <div>
-      <Card className={classes.Book + " p-0"}>
+      <Card
+        className={classes.Book + " p-0 hvr-backward"}
+        onClick={props.clicked}
+      >
         <CardBody>
           <Row>
             <Col xs="5">
-              <img src={Cover} alt="" width="100%" />
+              <img src={props.cover} alt="" width="100%" />
             </Col>
             <Col xs="7">
               <CardTitle>
-                <h4>The Upside of Falling : Alex Light</h4>
+                <h4>{props.title}</h4>
               </CardTitle>
               <CardText>
                 <small className="text-muted">Romance</small>
@@ -32,7 +35,7 @@ const book = () => {
               <CardText>
                 <img src={Star} alt="" />
               </CardText>
-              <CardText className="text-success">Rp. 100.000</CardText>
+              <CardText className="text-success">Rp. {props.price}</CardText>
               <Button className="rounded-pill">
                 <b>+</b> &nbsp;Add to cart
               </Button>

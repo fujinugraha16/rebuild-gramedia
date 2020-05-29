@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import {
   Row,
   Col,
@@ -20,19 +21,17 @@ import IG from "../../assets/Icon/ig-dark.svg";
 import TW from "../../assets/Icon/tw-dark.svg";
 import BookTabContent from "../BookTabContent/BookTabContent";
 
-const detailBook = () => {
-  const contentTab1 = `
-    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin erature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at ampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, `;
+import { rupiahFormat } from "../../store/utility";
+
+const detailBook = (props) => {
+  const contentTab1 = props.detailBook.description;
   const contentTab2 = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam quaerat iure aspernatur accusantium! Asperiores facilis cupiditate repellendus at corporis ratione amet laudantium quos. Dignissimos, fuga? Illum facere doloremque consequuntur laudantium.`;
 
   return (
     <div className={classes.DetailBook}>
       <Row className="mb-4">
         <Col>
-          Home{" "}
-          <b style={{ color: "#234090" }}>
-            / The Upside of Falling: Alex Light
-          </b>
+          Home <b style={{ color: "#234090" }}>/ {props.detailBook.title}</b>
         </Col>
       </Row>
       <Row className={classes.DetailBookBox}>
@@ -41,11 +40,11 @@ const detailBook = () => {
             <CardBody>
               <Row>
                 <Col xs="5">
-                  <img src={Cover} alt="" width="100%" />
+                  <img src={props.detailBook.cover} alt="" width="100%" />
                 </Col>
                 <Col xs="7">
                   <CardTitle>
-                    <h3>The Upside of Falling : Alex Light</h3>
+                    <h3>{props.detailBook.title}</h3>
                   </CardTitle>
                   <CardText>
                     <h5 className="text-muted">Romance</h5>
@@ -54,18 +53,13 @@ const detailBook = () => {
                     <img src={Star} alt="" />
                   </CardText>
                   <CardText className="mt-4">
-                    <h4 className="font-weight-bold">Rp. 100.000</h4>
+                    <h4 className="font-weight-bold">
+                      Rp. {rupiahFormat(props.detailBook.price)}
+                    </h4>
                   </CardText>
                   <CardText className="mt-4">
-                    <p>
-                      Contrary to popular belief, Lorem Ipsum is not simply
-                      random text. It has roots in a piece of classical Latin
-                      literature from 45 BC, making it over 2000 years old.
-                      Richard McClintock, a Latin professor at Hampden-Sydney
-                      College in Virginia, looked up one of the more obscure
-                      Latin words, consectetur, from a Lorem Ipsum passage, and
-                      going through the cites of the word in classical
-                      literature,
+                    <p className="text-justify">
+                      {props.detailBook.description}
                     </p>
                   </CardText>
                   <CardText className="mt-4">
@@ -148,4 +142,10 @@ const detailBook = () => {
   );
 };
 
-export default detailBook;
+const mapStateToProps = (state) => {
+  return {
+    detailBook: state.book.detailBook,
+  };
+};
+
+export default connect(mapStateToProps)(detailBook);

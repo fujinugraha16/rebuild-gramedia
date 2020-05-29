@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   Collapse,
   Navbar,
@@ -6,14 +7,16 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   NavbarText,
 } from "reactstrap";
+import { NavLink } from "react-router-dom";
 
 import classes from "./Header.module.css";
 import Logo from "../../assets/Logo/Logo.svg";
 import Troli from "../../assets/Icon/troli.svg";
 import Avatar from "../../assets/Icon/avatar.svg";
+
+import * as actionCreators from "../../store/actions";
 
 class Header extends Component {
   state = {
@@ -36,16 +39,18 @@ class Header extends Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="mr-auto" navbar>
-              <NavItem>
-                <NavLink href="#" className={classes.Active}>
+              <NavItem className="mr-4">
+                <NavLink to="/" exact activeClassName={classes.active}>
                   Bookstore
                 </NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink href="#">Wishlist</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="#">My Order</NavLink>
+              <NavItem className="mr-4">
+                <a href="#" onClick={this.props.onModalToggle}>
+                  My Order
+                </a>
+                {/* <NavLink to="/order" activeClassName={classes.active}>
+                  My Order
+                </NavLink> */}
               </NavItem>
             </Nav>
             <NavbarText className="mr-2">
@@ -64,4 +69,10 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onModalToggle: () => dispatch(actionCreators.modalToggle()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Header);

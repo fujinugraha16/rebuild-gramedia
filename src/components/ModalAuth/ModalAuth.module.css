@@ -1,0 +1,58 @@
+.ModalAuth {
+  box-sizing: border-box;
+}
+
+.ModalAuth input {
+  border: none !important;
+  border-bottom: 1.5px solid #abadac !important;
+  border-radius: 0;
+}
+
+.ModalBody {
+  padding: 30px !important;
+}
+
+.BtnPrimary {
+  margin-top: 20px;
+  background-color: #2d3034 !important;
+  color: white;
+  width: 100%;
+  border: none !important;
+}
+
+.BtnSecondary {
+  margin-top: 5px;
+  border: none !important;
+  background-color: white !important;
+  color: #2d3034 !important;
+  width: 100%;
+}
+
+.BtnPrimary:hover {
+  background-color: white !important;
+  color: #2d3034 !important;
+  font-weight: bold;
+  border: none;
+}
+
+.ModalAuth input:focus {
+  box-shadow: none !important;
+  border-bottom: 1.5px solid #2d3034 !important;
+  color: #2d3034 !important;
+}
+
+.BtnSecondary:hover {
+  color: #abadac !important;
+}
+
+.ModalAuth p {
+  font-size: 10px;
+}
+
+.ModalAuth p b {
+  cursor: pointer;
+}
+
+.ModalAuth p b:hover {
+  color: #2d3034 !important;
+}
