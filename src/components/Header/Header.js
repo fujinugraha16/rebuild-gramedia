@@ -10,13 +10,14 @@ import {
   NavbarText,
   Button,
 } from "reactstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 
 import classes from "./Header.module.css";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 import Logo from "../../assets/Logo/Logo.svg";
 import Troli from "../../assets/Icon/troli.svg";
 import Avatar from "../../assets/Icon/avatar.svg";
+import CartModal from "../CartModal/CartModal";
 
 import * as actionCreators from "../../store/actions";
 
@@ -24,6 +25,7 @@ class Header extends Component {
   state = {
     isOpen: false,
     dropDownOpen: false,
+    cartModalOpen: false,
   };
 
   toggle = () => {
@@ -40,6 +42,12 @@ class Header extends Component {
     this.props.onModalLogout(this.state.dropDownOpen);
   };
 
+  toggleCartModal = () => {
+    this.setState({
+      cartModalOpen: !this.state.cartModalOpen,
+    });
+  };
+
   closeDropdown = () => {
     this.setState({
       dropDownOpen: false,
@@ -47,10 +55,19 @@ class Header extends Component {
   };
 
   render() {
+    const { pathname } = this.props.location;
+
     const navText = this.props.isAuth ? (
       <div>
         <NavbarText className="mr-2">
-          <img alt="" src={Troli} />
+          <img
+            className={
+              pathname === "/checkout" || pathname === "/order" ? "d-none" : ""
+            }
+            alt=""
+            src={Troli}
+            onClick={this.toggleCartModal}
+          />
         </NavbarText>
         <NavbarText className="mr-2">
           <img alt="" src={Avatar} onClick={this.toggleDropdown} />
@@ -121,6 +138,10 @@ class Header extends Component {
           </Collapse>
         </Navbar>
         {dropDown}
+        <CartModal
+          isOpen={this.state.cartModalOpen}
+          clicked={this.toggleCartModal}
+        />
       </div>
     );
   }
@@ -140,4 +161,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

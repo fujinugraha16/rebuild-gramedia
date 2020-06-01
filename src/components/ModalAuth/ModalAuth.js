@@ -216,7 +216,7 @@ class ModalAuth extends Component {
     );
 
     const authInfo = (
-      <div className="text-center py-3">
+      <div className="text-center py-4">
         <h6>
           {this.props.isLogout
             ? "Ready to leave?"

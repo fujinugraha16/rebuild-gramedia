@@ -29,7 +29,7 @@ class BodyHomepage extends Component {
           }}
         >
           <Col xs="12" className="p-0">
-            <PageTab title="My Cart" path="My Cart" />
+            <PageTab title="Checkout" path="Checkout" />
             <Table className={classes.TableCheckout + " mt-4"} borderless>
               <thead>
                 <tr>

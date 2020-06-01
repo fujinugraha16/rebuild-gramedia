@@ -1,0 +1,31 @@
+.CartModal {
+  background: #2d3034 !important;
+  color: white !important;
+  position: absolute !important;
+  width: 360px !important;
+  right: 75px;
+  top: 75px;
+  z-index: 1000 !important;
+}
+
+.BtnCheckout {
+  width: 92.5%;
+  background-color: #fff !important;
+  color: #234090 !important;
+}
+
+.BtnCheckout:hover {
+  background-color: #2d3034 !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.BtnCheckout:focus {
+  box-shadow: none !important;
+  background-color: #2d3034 !important;
+  color: #fff !important;
+}
+
+.BtnClose:hover {
+  font-weight: bold;
+}
