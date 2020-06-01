@@ -10,7 +10,7 @@ import Istore from "../../assets/Icon/istore.svg";
 
 const footer = () => {
   return (
-    <div>
+    <div className={classes.Footer}>
       <Row className={classes.Top}>
         <Col xs="12" sm="4">
           <h6>About</h6>

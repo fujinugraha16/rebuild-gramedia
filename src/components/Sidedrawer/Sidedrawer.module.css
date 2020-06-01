@@ -11,9 +11,19 @@
   margin-left: 10px;
 }
 
-.List a {
+.Sidedrawer a {
   border: 1px solid rgba(0, 0, 0, 0);
   color: #abadac;
+  text-decoration: none !important;
+}
+
+.Sidedrawer a:hover {
+  color: #2d3034;
+}
+
+.Sidedrawer a:active,
+.Sidedrawer a.active {
+  color: #2d3034;
 }
 
 .List strong {

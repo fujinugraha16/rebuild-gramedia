@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { Modal, Input, ModalBody, Button, Spinner } from "reactstrap";
 
 import classes from "./ModalAuth.module.css";
@@ -74,6 +75,11 @@ class ModalAuth extends Component {
         loading: false,
       });
     }, 2000);
+  };
+
+  logoutButtonHandler = () => {
+    this.props.onLogout();
+    this.props.history.push("/");
   };
 
   render() {
@@ -225,7 +231,7 @@ class ModalAuth extends Component {
           color="secondary"
           onClick={
             this.props.isLogout
-              ? this.props.onLogout
+              ? this.logoutButtonHandler
               : this.props.dataAuth.success
               ? this.props.onModalToggle
               : this.props.onCleanDataAuth
@@ -274,7 +280,10 @@ const mapDispatchProps = (dispatch) => {
     onSubmit: (authType, formData) =>
       dispatch(actionCreators.authProcess(authType, formData)),
     onLogout: () => dispatch(actionCreators.logout()),
+    onCleanDataAuth: () => dispatch(actionCreators.cleanDataAuth()),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchProps)(ModalAuth);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchProps)(ModalAuth)
+);

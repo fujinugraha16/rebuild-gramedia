@@ -20,8 +20,24 @@ export const setAuthData = (dataAuth) => {
 };
 
 export const initAuth = () => {
-  return {
-    type: actionTypes.INIT_AUTH,
+  return (dispatch) => {
+    const token = localStorage.getItem("token");
+    const name = localStorage.getItem("name");
+    if (token) {
+      const dataAuth = {
+        success: true,
+        data: {
+          token,
+          name,
+        },
+        message: "User login successfully.",
+      };
+      dispatch(setAuthData(dataAuth));
+      dispatch(setToken(token));
+    } else {
+      dispatch(setAuthData({}));
+      dispatch(setToken(null));
+    }
   };
 };
 
@@ -73,7 +89,10 @@ export const authProcess = (authType, formData) => {
         dispatch(setAuthData(data));
         if (data.success) {
           dispatch(setToken(data.data.token));
+          localStorage.setItem("token", data.data.token);
+          localStorage.setItem("name", data.data.name);
         }
+        dispatch(modalLogout(false));
       })
       .catch((error) => console.log("error", error));
   };
@@ -86,6 +105,8 @@ export const cleanDataAuth = () => {
 };
 
 export const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("name");
   return (dispatch) => {
     dispatch(cleanDataAuth());
   };

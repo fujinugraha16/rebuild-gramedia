@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Row, Col, Button } from "reactstrap";
 
-import classes from "./Books.module.css";
+import classes from "./FilterCategoryBook.module.css";
 import Book from "../../components/Book/Book";
 import BookTabs from "../../components/BookTabs/BookTabs";
 import BookLoader from "../../components/UI/BookLoader/BookLoader";
@@ -11,11 +11,7 @@ import BookLoader from "../../components/UI/BookLoader/BookLoader";
 import * as actionCreators from "../../store/actions";
 import { rupiahFormat } from "../../store/utility";
 
-class Books extends Component {
-  componentDidMount() {
-    this.props.onInitBooks();
-  }
-
+class FilterCategoryBook extends Component {
   onCardClickHandler = (slug) => {
     this.props.onInitDetailBookStart();
     this.props.history.push("/detail-book/" + slug);
@@ -63,9 +59,9 @@ class Books extends Component {
     );
 
     return (
-      <div className={classes.Books}>
+      <div className={classes.FilterCategoryBooks}>
         <Row>
-          <BookTabs slug={null} />
+          <BookTabs slug={this.props.slug} />
         </Row>
         <Row>{book}</Row>
         <Row className="float-right mr-2">
@@ -106,9 +102,10 @@ const mapStateToProps = (state) => {
 
 const mapDispathToProps = (dispatch) => {
   return {
-    onInitBooks: (page) => dispatch(actionCreators.initBooks(page)),
     onInitDetailBookStart: () => dispatch(actionCreators.initDetailBookStart()),
   };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispathToProps)(Books));
+export default withRouter(
+  connect(mapStateToProps, mapDispathToProps)(FilterCategoryBook)
+);

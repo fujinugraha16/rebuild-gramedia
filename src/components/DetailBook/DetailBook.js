@@ -24,9 +24,28 @@ import BookTabContent from "../BookTabContent/BookTabContent";
 import { rupiahFormat } from "../../store/utility";
 
 const detailBook = (props) => {
-  const contentTab1 = props.detailBook.description;
-  const contentTab2 = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam quaerat iure aspernatur accusantium! Asperiores facilis cupiditate repellendus at corporis ratione amet laudantium quos. Dignissimos, fuga? Illum facere doloremque consequuntur laudantium.`;
+  // let element = "";
+  // for (let i = 0; i < props.detailBook.categories.length; i++) {
+  //   element = element + ", " + props.detailBook.categories[i].name;
+  // }
 
+  const contentTab1 = props.detailBook.description;
+  const contentTab2 = (
+    <div>
+      <b>Title: </b> {props.detailBook.title}
+      <br />
+      <b>Author: </b> {props.detailBook.author}
+      <br />
+      <b>publisher: </b> {props.detailBook.publisher}
+      <br />
+      <b>price: </b> {props.detailBook.price}
+      <br />
+      <b>stock: </b> {props.detailBook.stock} pcs
+      <br />
+      <b>category: </b> {props.categories}
+      <br />
+    </div>
+  );
   return (
     <div className={classes.DetailBook}>
       <Row className="mb-4">
@@ -47,7 +66,9 @@ const detailBook = (props) => {
                     <h3>{props.detailBook.title}</h3>
                   </CardTitle>
                   <CardText>
-                    <h5 className="text-muted">Romance</h5>
+                    <h5 className="text-muted mt-3">
+                      {props.detailBook.author}
+                    </h5>
                   </CardText>
                   <CardText className="mt-4">
                     <img src={Star} alt="" />
@@ -145,6 +166,7 @@ const detailBook = (props) => {
 const mapStateToProps = (state) => {
   return {
     detailBook: state.book.detailBook,
+    categories: state.book.categories,
   };
 };
 

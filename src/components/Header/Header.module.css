@@ -39,13 +39,16 @@
 .BtnSecondary {
   margin-top: 5px;
   border: none !important;
-  background-color: white !important;
-  color: #2d3034 !important;
+  background-color: #f8f9fa !important;
+  color: #abadac !important;
+  font-weight: 600 !important;
   width: 100%;
+  border-radius: 15px !important;
 }
 
 .BtnSecondary:hover {
-  color: #abadac !important;
+  color: white !important;
+  background-color: #2d3034 !important;
 }
 
 .MenuDropdown {

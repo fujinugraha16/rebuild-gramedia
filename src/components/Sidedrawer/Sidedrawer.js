@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, NavLink } from "react-router-dom";
 import { Row, Col, ListGroup, ListGroupItem, Input } from "reactstrap";
 
 import classes from "./Sidedrawer.module.css";
@@ -11,6 +11,10 @@ class Sidedrawer extends Component {
   onSearchChangeHandler = (event) => {
     this.props.onSearchBooks(event.target.value);
   };
+
+  componentDidMount() {
+    this.props.onInitCategoryBook();
+  }
 
   render() {
     const inputSearch =
@@ -35,31 +39,36 @@ class Sidedrawer extends Component {
           <ListGroupItem tag="a" href="#" action>
             <strong>Popular Subject</strong>
           </ListGroupItem>
-          <ListGroupItem tag="a" href="#" action>
-            Biographies
-          </ListGroupItem>
-          <ListGroupItem tag="a" href="#" action>
-            Business & Money
-          </ListGroupItem>
-          <ListGroupItem tag="a" href="#" action>
-            Children's Books
-          </ListGroupItem>
-          <ListGroupItem tag="a" href="#" action>
-            Computer and Technology
-          </ListGroupItem>
-          <ListGroupItem tag="a" href="#" action>
-            Parenting & Families
-          </ListGroupItem>
+          {this.props.categoryBook.map((item) => (
+            <ListGroupItem tag="a" href="#" action key={item.slug}>
+              <NavLink
+                to={"/category/" + item.slug}
+                activeClassName={classes.active}
+                key={item.slug}
+              >
+                {item.name}
+              </NavLink>
+            </ListGroupItem>
+          ))}
         </ListGroup>
       </div>
     );
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    onSearchBooks: (keyword) => dispatch(actionCreators.searchBooks(keyword)),
+    categoryBook: state.book.categoryBook,
   };
 };
 
-export default withRouter(connect(null, mapDispatchToProps)(Sidedrawer));
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSearchBooks: (keyword) => dispatch(actionCreators.searchBooks(keyword)),
+    onInitCategoryBook: () => dispatch(actionCreators.initCategoryBook()),
+  };
+};
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Sidedrawer)
+);

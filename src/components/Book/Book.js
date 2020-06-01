@@ -35,7 +35,7 @@ const book = (props) => {
                 <h4>{props.title}</h4>
               </CardTitle>
               <CardText>
-                <small className="text-muted">Romance</small>
+                <small className="text-muted">{props.author}</small>
               </CardText>
               <CardText>
                 <img src={Star} alt="" />

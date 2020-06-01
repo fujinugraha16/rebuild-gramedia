@@ -7,6 +7,8 @@ export {
   initDetailBook,
   setDetailBook,
   initDetailBookStart,
+  initCategoryBook,
+  filterCategoryBook,
 } from "./book";
 export {
   modalToggle,
@@ -15,4 +17,6 @@ export {
   authProcess,
   logout,
   modalLogout,
+  cleanDataAuth,
+  initAuth,
 } from "./auth";
