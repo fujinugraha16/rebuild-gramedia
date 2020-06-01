@@ -8,4 +8,11 @@ export {
   setDetailBook,
   initDetailBookStart,
 } from "./book";
-export { modalToggle, isRegister, setAuthData, authProcess } from "./auth";
+export {
+  modalToggle,
+  isRegister,
+  setAuthData,
+  authProcess,
+  logout,
+  modalLogout,
+} from "./auth";

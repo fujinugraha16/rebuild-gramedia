@@ -1,9 +1,13 @@
 .Book {
   border-radius: 15px !important;
-  cursor: pointer;
 }
 
 .Book button {
   background: #2d3034;
   border: none;
+}
+
+.Book img:hover,
+.Book h4:hover {
+  cursor: pointer;
 }

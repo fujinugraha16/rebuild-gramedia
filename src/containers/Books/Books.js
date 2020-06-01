@@ -21,6 +21,10 @@ class Books extends Component {
     this.props.history.push("/detail-book/" + slug);
   };
 
+  addToCartHandler = () => {
+    console.log("add to cart");
+  };
+
   render() {
     const book = this.props.books.length ? (
       this.props.books.map((book) => (
@@ -30,6 +34,7 @@ class Books extends Component {
             cover={book.cover}
             price={rupiahFormat(book.price)}
             clicked={() => this.onCardClickHandler(book.slug)}
+            addToCart={this.addToCartHandler}
           />
         </Col>
       ))

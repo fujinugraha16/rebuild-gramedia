@@ -5,6 +5,7 @@
 
 .Header img {
   width: 85%;
+  cursor: pointer;
 }
 
 .Header a {
@@ -21,4 +22,35 @@
 .Header a.active {
   color: #2d3034;
   font-weight: bold;
+}
+
+.BtnPrimary {
+  border: none !important;
+  background-color: #2d3034 !important;
+  color: white !important;
+}
+
+.BtnPrimary:hover {
+  background-color: white !important;
+  color: #2d3034 !important;
+  font-weight: 800;
+}
+
+.BtnSecondary {
+  margin-top: 5px;
+  border: none !important;
+  background-color: white !important;
+  color: #2d3034 !important;
+  width: 100%;
+}
+
+.BtnSecondary:hover {
+  color: #abadac !important;
+}
+
+.MenuDropdown {
+  position: absolute;
+  right: 150px;
+  top: 60px;
+  z-index: 1000 !important;
 }

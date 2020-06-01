@@ -25,6 +25,55 @@ class ModalAuth extends Component {
         confirm_password: "",
       },
     },
+    loading: false,
+    notSame: false,
+  };
+
+  inputChangeHandler = (event) => {
+    const updateFormData = !this.props.isRegister
+      ? { ...this.state.login }
+      : { ...this.state.register };
+    const elementFormData = { ...updateFormData.formData };
+
+    elementFormData[event.target.name] = event.target.value;
+    updateFormData.formData = elementFormData;
+
+    if (!this.props.isRegister) {
+      this.setState({
+        login: updateFormData,
+      });
+    } else {
+      this.setState({
+        register: updateFormData,
+      });
+    }
+  };
+
+  submitHandler = () => {
+    if (!this.props.isRegister) {
+      const { authType, formData } = this.state.login;
+      this.props.onSubmit(authType, formData);
+    } else {
+      const { authType, formData } = this.state.register;
+
+      const valid = formData.confirm_password !== formData.password;
+
+      this.setState({
+        notSame: valid,
+      });
+
+      this.props.onSubmit(authType, formData);
+    }
+
+    this.setState({
+      loading: true,
+    });
+
+    setTimeout(() => {
+      this.setState({
+        loading: false,
+      });
+    }, 2000);
   };
 
   render() {
@@ -41,6 +90,7 @@ class ModalAuth extends Component {
           className="mt-3"
           required
           autoComplete="off"
+          onChange={(event) => this.inputChangeHandler(event)}
         />
         <Input
           type="password"
@@ -50,6 +100,7 @@ class ModalAuth extends Component {
           className="mt-3"
           required
           autoComplete="off"
+          onChange={(event) => this.inputChangeHandler(event)}
         />
         <p className="text-center mt-2" style={{ color: "#abadac" }}>
           Don't have an account?{" "}
@@ -57,7 +108,11 @@ class ModalAuth extends Component {
             Register
           </b>
         </p>
-        <Button className={classes.BtnPrimary + " mt-n1"} color="secondary">
+        <Button
+          className={classes.BtnPrimary + " mt-n1"}
+          color="secondary"
+          onClick={this.submitHandler}
+        >
           Submit
         </Button>
         <Button
@@ -83,6 +138,7 @@ class ModalAuth extends Component {
           className="mt-3"
           required
           autoComplete="off"
+          onChange={(event) => this.inputChangeHandler(event)}
         />
         <Input
           type="text"
@@ -92,6 +148,7 @@ class ModalAuth extends Component {
           className="mt-3"
           required
           autoComplete="off"
+          onChange={(event) => this.inputChangeHandler(event)}
         />
         <Input
           type="email"
@@ -101,6 +158,7 @@ class ModalAuth extends Component {
           className="mt-3"
           required
           autoComplete="off"
+          onChange={(event) => this.inputChangeHandler(event)}
         />
         <Input
           type="password"
@@ -110,6 +168,7 @@ class ModalAuth extends Component {
           className="mt-3"
           required
           autoComplete="off"
+          onChange={(event) => this.inputChangeHandler(event)}
         />
         <Input
           type="password"
@@ -119,6 +178,7 @@ class ModalAuth extends Component {
           className="mt-3"
           required
           autoComplete="off"
+          onChange={(event) => this.inputChangeHandler(event)}
         />
         <p className="text-center mt-2" style={{ color: "#abadac" }}>
           Already have an account?{" "}
@@ -126,7 +186,11 @@ class ModalAuth extends Component {
             Login
           </b>
         </p>
-        <Button className={classes.BtnPrimary + " mt-n1"} color="secondary">
+        <Button
+          className={classes.BtnPrimary + " mt-n1"}
+          color="secondary"
+          onClick={this.submitHandler}
+        >
           Submit
         </Button>
         <Button
@@ -145,6 +209,33 @@ class ModalAuth extends Component {
       />
     );
 
+    const authInfo = (
+      <div className="text-center py-3">
+        <h6>
+          {this.props.isLogout
+            ? "Ready to leave?"
+            : this.props.dataAuth.success
+            ? this.props.dataAuth.message
+            : this.state.notSame
+            ? "Failed: the confirm password and password must match"
+            : "Failed: please try again"}
+        </h6>
+        <Button
+          className={classes.BtnSecondary}
+          color="secondary"
+          onClick={
+            this.props.isLogout
+              ? this.props.onLogout
+              : this.props.dataAuth.success
+              ? this.props.onModalToggle
+              : this.props.onCleanDataAuth
+          }
+        >
+          {this.props.isLogout ? "Logout" : "Oke"}
+        </Button>
+      </div>
+    );
+
     return (
       <div>
         <Modal
@@ -153,7 +244,13 @@ class ModalAuth extends Component {
           className={classes.ModalAuth + " " + this.props.className}
           style={{ width: "25%" }}
         >
-          {!this.props.isRegister ? modalLogin : modalRegister}
+          {this.state.loading
+            ? spinner
+            : this.props.dataAuth.message
+            ? authInfo
+            : !this.props.isRegister
+            ? modalLogin
+            : modalRegister}
         </Modal>
       </div>
     );
@@ -164,6 +261,9 @@ const mapStateToProps = (state) => {
   return {
     modalOpen: state.auth.modalOpen,
     isRegister: state.auth.isRegister,
+    dataAuth: state.auth.dataAuth,
+    isAuth: state.auth.token ? true : false,
+    isLogout: state.auth.isLogout,
   };
 };
 
@@ -171,6 +271,9 @@ const mapDispatchProps = (dispatch) => {
   return {
     onModalToggle: () => dispatch(actionCreators.modalToggle()),
     onIsRegister: () => dispatch(actionCreators.isRegister()),
+    onSubmit: (authType, formData) =>
+      dispatch(actionCreators.authProcess(authType, formData)),
+    onLogout: () => dispatch(actionCreators.logout()),
   };
 };
 

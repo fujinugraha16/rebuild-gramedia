@@ -21,7 +21,14 @@ export const setAuthData = (dataAuth) => {
 
 export const initAuth = () => {
   return {
-    typr: actionTypes.INIT_AUTH,
+    type: actionTypes.INIT_AUTH,
+  };
+};
+
+export const setToken = (token) => {
+  return {
+    type: actionTypes.SET_TOKEN,
+    token,
   };
 };
 
@@ -62,10 +69,31 @@ export const authProcess = (authType, formData) => {
     fetch(url, requestOptions)
       .then((res) => res.text())
       .then((res) => {
-        const json = JSON.parse(res);
-        const data = json.data;
+        const data = JSON.parse(res);
         dispatch(setAuthData(data));
+        if (data.success) {
+          dispatch(setToken(data.data.token));
+        }
       })
       .catch((error) => console.log("error", error));
+  };
+};
+
+export const cleanDataAuth = () => {
+  return {
+    type: actionTypes.CLEAN_DATA_AUTH,
+  };
+};
+
+export const logout = () => {
+  return (dispatch) => {
+    dispatch(cleanDataAuth());
+  };
+};
+
+export const modalLogout = (isLogout) => {
+  return {
+    type: actionTypes.MODAL_LOGOUT,
+    isLogout,
   };
 };

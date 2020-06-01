@@ -12,3 +12,7 @@ export const IS_REGISTER = "IS_REGISTER";
 export const INIT_AUTH = "INIT_AUTH";
 export const AUTH_PROCESS = "AUTH_PROCESS";
 export const SET_AUTH_DATA = "SET_AUTH_DATA";
+export const SET_TOKEN = "SET_TOKEN";
+export const CLEAN_DATA_AUTH = "CLEAN_DATA_AUTH";
+export const LOGOUT = "LOGOUT";
+export const MODAL_LOGOUT = "MODAL_LOGOUT";

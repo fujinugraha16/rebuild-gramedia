@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import {
   Card,
   Button,
@@ -13,20 +14,24 @@ import classes from "./Book.module.css";
 import Cover from "../../assets/Images/cover.svg";
 import Star from "../../assets/Icon/star-group.svg";
 
+import * as actionCreators from "../../store/actions";
+
 const book = (props) => {
   return (
     <div>
-      <Card
-        className={classes.Book + " p-0 hvr-backward"}
-        onClick={props.clicked}
-      >
+      <Card className={classes.Book + " p-0 hvr-backward"}>
         <CardBody>
           <Row>
             <Col xs="5">
-              <img src={props.cover} alt="" width="100%" />
+              <img
+                src={props.cover}
+                alt=""
+                width="100%"
+                onClick={props.clicked}
+              />
             </Col>
             <Col xs="7">
-              <CardTitle>
+              <CardTitle onClick={props.clicked}>
                 <h4>{props.title}</h4>
               </CardTitle>
               <CardText>
@@ -36,7 +41,10 @@ const book = (props) => {
                 <img src={Star} alt="" />
               </CardText>
               <CardText className="text-success">Rp. {props.price}</CardText>
-              <Button className="rounded-pill">
+              <Button
+                className="rounded-pill"
+                onClick={props.isAuth ? props.addToCart : props.onModalToggle}
+              >
                 <b>+</b> &nbsp;Add to cart
               </Button>
             </Col>
@@ -47,4 +55,16 @@ const book = (props) => {
   );
 };
 
-export default book;
+const mapStateToProps = (state) => {
+  return {
+    isAuth: state.auth.token ? true : false,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onModalToggle: () => dispatch(actionCreators.modalToggle()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(book);
