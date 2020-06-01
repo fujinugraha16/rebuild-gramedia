@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import {
   Collapse,
@@ -21,12 +21,28 @@ import CartModal from "../CartModal/CartModal";
 
 import * as actionCreators from "../../store/actions";
 
-class Header extends Component {
+class Header extends PureComponent {
   state = {
     isOpen: false,
     dropDownOpen: false,
     cartModalOpen: false,
   };
+
+  componentDidMount() {
+    const token = this.props.isAuth ? this.props.token : null;
+    if (token) {
+      this.props.onInitCart(token, true);
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.state.cartModalOpen) {
+      const token = this.props.isAuth ? this.props.token : null;
+      if (token) {
+        this.props.onInitCart(token);
+      }
+    }
+  }
 
   toggle = () => {
     this.setState({
@@ -151,6 +167,8 @@ const mapStateToProps = (state) => {
   return {
     isAuth: state.auth.token ? true : false,
     dataAuth: state.auth.dataAuth,
+    token: state.auth.token,
+    dataCart: state.cart.dataCart,
   };
 };
 
@@ -158,6 +176,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onModalToggle: () => dispatch(actionCreators.modalToggle()),
     onModalLogout: (isLogout) => dispatch(actionCreators.modalLogout(isLogout)),
+    onInitCart: (token, update) =>
+      dispatch(actionCreators.initCart(token, update)),
   };
 };
 

@@ -10,6 +10,7 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import bookReducer from "./store/reducers/book";
 import authReducer from "./store/reducers/auth";
+import cartReducer from "./store/reducers/cart";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -18,6 +19,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
   book: bookReducer,
   auth: authReducer,
+  cart: cartReducer,
 });
 
 const store = createStore(

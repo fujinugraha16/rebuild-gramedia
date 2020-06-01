@@ -21,4 +21,6 @@ export const CLEAN_DATA_AUTH = "CLEAN_DATA_AUTH";
 export const LOGOUT = "LOGOUT";
 export const MODAL_LOGOUT = "MODAL_LOGOUT";
 
-export const ADD_CART = "ADD_CART";
+export const INC_DEC_CART = "INC_DEC_CART";
+export const INIT_CART = "INIT_CART";
+export const SET_DATA_CART = "SET_DATA_CART";
