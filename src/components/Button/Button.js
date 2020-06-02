@@ -16,6 +16,7 @@ const button = (props) => {
       style={styleButton}
       size={props.size}
       onClick={props.clicked}
+      disabled={props.disabled}
     >
       {props.children}
     </Button>

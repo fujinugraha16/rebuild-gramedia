@@ -23,10 +23,16 @@ const listGroupItem = (props) => (
           <small>{props.book.title}</small>
         </Row>
         <Row className="mb-2">
-          <small>{rupiahFormat(props.book.price * props.quantity)}</small>
+          <small>Rp. {rupiahFormat(props.book.price * props.quantity)}</small>
         </Row>
         <Row>
-          <small className="text-muted">REMOVE</small>
+          <small
+            className="text-muted"
+            onClick={props.rmvClicked}
+            style={{ cursor: "pointer" }}
+          >
+            REMOVE
+          </small>
         </Row>
       </Col>
       <Col xs="2">

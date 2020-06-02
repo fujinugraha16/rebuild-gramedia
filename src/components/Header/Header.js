@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   Collapse,
@@ -21,28 +21,12 @@ import CartModal from "../CartModal/CartModal";
 
 import * as actionCreators from "../../store/actions";
 
-class Header extends PureComponent {
+class Header extends Component {
   state = {
     isOpen: false,
     dropDownOpen: false,
     cartModalOpen: false,
   };
-
-  componentDidMount() {
-    const token = this.props.isAuth ? this.props.token : null;
-    if (token) {
-      this.props.onInitCart(token, true);
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.state.cartModalOpen) {
-      const token = this.props.isAuth ? this.props.token : null;
-      if (token) {
-        this.props.onInitCart(token);
-      }
-    }
-  }
 
   toggle = () => {
     this.setState({
@@ -75,15 +59,18 @@ class Header extends PureComponent {
 
     const navText = this.props.isAuth ? (
       <div>
-        <NavbarText className="mr-2">
-          <img
-            className={
-              pathname === "/checkout" || pathname === "/order" ? "d-none" : ""
-            }
-            alt=""
-            src={Troli}
-            onClick={this.toggleCartModal}
-          />
+        <NavbarText
+          className={
+            pathname === "/checkout" || pathname === "/order"
+              ? "d-none"
+              : "mr-2"
+          }
+          style={{ position: "relative" }}
+        >
+          <div className={classes.Circle + " rounded-circle bg-danger"}>
+            {this.props.amountCart}
+          </div>
+          <img alt="" src={Troli} onClick={this.toggleCartModal} />
         </NavbarText>
         <NavbarText className="mr-2">
           <img alt="" src={Avatar} onClick={this.toggleDropdown} />
@@ -157,6 +144,7 @@ class Header extends PureComponent {
         <CartModal
           isOpen={this.state.cartModalOpen}
           clicked={this.toggleCartModal}
+          dataCart={this.props.dataCart}
         />
       </div>
     );
@@ -169,6 +157,7 @@ const mapStateToProps = (state) => {
     dataAuth: state.auth.dataAuth,
     token: state.auth.token,
     dataCart: state.cart.dataCart,
+    amountCart: state.cart.amountCart,
   };
 };
 
@@ -176,8 +165,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onModalToggle: () => dispatch(actionCreators.modalToggle()),
     onModalLogout: (isLogout) => dispatch(actionCreators.modalLogout(isLogout)),
-    onInitCart: (token, update) =>
-      dispatch(actionCreators.initCart(token, update)),
   };
 };
 

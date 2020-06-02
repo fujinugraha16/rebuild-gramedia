@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import {
   Row,
@@ -21,13 +21,29 @@ import IG from "../../assets/Icon/ig-dark.svg";
 import TW from "../../assets/Icon/tw-dark.svg";
 import BookTabContent from "../BookTabContent/BookTabContent";
 
+import * as actionCreators from "../../store/actions";
 import { rupiahFormat } from "../../store/utility";
 
-const detailBook = (props) => {
-  // let element = "";
-  // for (let i = 0; i < props.detailBook.categories.length; i++) {
-  //   element = element + ", " + props.detailBook.categories[i].name;
-  // }
+const useDetailBook = (props) => {
+  const [qty, setQty] = useState(0);
+
+  const incHandler = () => {
+    setQty(qty + 1);
+  };
+
+  const decHandler = () => {
+    if (qty > 0) {
+      setQty(qty - 1);
+    } else {
+      setQty(0);
+    }
+  };
+
+  const incDecHandler = (token, bookId) => {
+    if (qty > 0) {
+      props.onIncDecCart(token, bookId, qty);
+    }
+  };
 
   const contentTab1 = props.detailBook.description;
   const contentTab2 = (
@@ -93,24 +109,42 @@ const detailBook = (props) => {
                       <Col>
                         <InputGroup className="mt-2">
                           <InputGroupAddon addonType="prepend">
-                            <Button classBtn="btn btn-light">-</Button>
+                            <Button
+                              classBtn="btn btn-light"
+                              clicked={decHandler}
+                            >
+                              -
+                            </Button>
                           </InputGroupAddon>
                           <Input
                             type="text"
                             className="border-0 text-center"
-                            value="0"
+                            value={qty}
+                            readOnly
                           />
                           <InputGroupAddon addonType="append">
-                            <Button classBtn="btn btn-light">+</Button>
+                            <Button
+                              classBtn="btn btn-light"
+                              clicked={incHandler}
+                            >
+                              +
+                            </Button>
                           </InputGroupAddon>
                         </InputGroup>
                       </Col>
                       <Col>
                         <Button
-                          classBtn="rounded-pill"
+                          classBtn={
+                            (qty ? classes.BtnAddToCart : classes.BtnDisabled) +
+                            " rounded-pill"
+                          }
                           background="#2d3034"
                           width="100%"
                           height="47px"
+                          disabled={!qty}
+                          clicked={() =>
+                            incDecHandler(props.token, props.detailBook.id)
+                          }
                         >
                           <b>+</b> &nbsp;Add to cart
                         </Button>
@@ -167,7 +201,15 @@ const mapStateToProps = (state) => {
   return {
     detailBook: state.book.detailBook,
     categories: state.book.categories,
+    token: state.auth.token,
   };
 };
 
-export default connect(mapStateToProps)(detailBook);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onIncDecCart: (token, bookId, value) =>
+      dispatch(actionCreators.incDecCart(token, bookId, value)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(useDetailBook);

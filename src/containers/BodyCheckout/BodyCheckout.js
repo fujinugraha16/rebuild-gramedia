@@ -1,26 +1,64 @@
-import React, { Component } from "react";
-import {
-  Row,
-  Col,
-  Table,
-  Card,
-  CardBody,
-  CardText,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-} from "reactstrap";
+import React, { PureComponent } from "react";
+import { connect } from "react-redux";
+import { Redirect, withRouter, NavLink } from "react-router-dom";
+import { Row, Col, Table } from "reactstrap";
 
 import classes from "./BodyCheckout.module.css";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
+import RowItem from "./RowItem/RowItem";
 import PageTab from "../../components/PageTab/PageTab";
 import Button from "../../components/Button/Button";
-import Cover from "../../assets/Images/cover.svg";
+// import Cover from "../../assets/Images/cover.svg";
 
-class BodyHomepage extends Component {
+import * as actionCreators from "../../store/actions";
+import { rupiahFormat } from "../../store/utility";
+
+class BodyHomepage extends PureComponent {
+  state = {
+    subtotal: this.props.subtotal,
+  };
+
+  componentDidMount() {
+    this.props.onInitCart(this.props.token);
+  }
+
+  onIncDecHandler = (token, bookId, value) => {
+    this.props.onIncDecCart(token, bookId, value);
+  };
+
+  onRemoveHandler = (token, cartId) => {
+    this.props.onDeleteItemCart(token, cartId);
+  };
+
+  onContinueShopping = () => {
+    this.props.history.push("/");
+  };
+
   render() {
+    let total = 0;
+    const rowItem = this.props.dataCart.map((item) => {
+      total += parseInt(item.book.price) * parseInt(item.quantity);
+      this.setState({
+        subtotal: total,
+      });
+      return (
+        <RowItem
+          key={item.book_id}
+          book={item.book}
+          quantity={item.quantity}
+          author={item.book.author}
+          inc={() => this.onIncDecHandler(this.props.token, item.book_id, 1)}
+          dec={() => this.onIncDecHandler(this.props.token, item.book_id, -1)}
+          rmvClicked={() => this.onRemoveHandler(this.props.token, item.id)}
+        />
+      );
+    });
+
+    const redirect = !this.props.dataCart.length ? <Redirect to="/" /> : "";
+
     return (
       <Aux>
+        {redirect}
         <Row
           style={{
             padding: "0 170px",
@@ -40,71 +78,15 @@ class BodyHomepage extends Component {
                   <th></th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td className="p-0">
-                    <Card className="p-0 border-0">
-                      <CardBody>
-                        <Row>
-                          <Col xs="3">
-                            <img src={Cover} alt="" width="90%" />
-                          </Col>
-                          <Col xs="5" className="d-flex align-items-center">
-                            <CardText>
-                              <h6 style={{ margin: 0, fontWeight: "bold" }}>
-                                The Upside of Falling
-                              </h6>
-                              <small className="text-muted">Alex Light</small>
-                            </CardText>
-                          </Col>
-                        </Row>
-                      </CardBody>
-                    </Card>
-                  </td>
-                  <td className="pt-5">
-                    <small>
-                      <strong>Rp. 120.000</strong>
-                    </small>
-                  </td>
-                  <td className="d-flex justify-content-center pt-5">
-                    <InputGroup style={{ width: "50%" }}>
-                      <InputGroupAddon addonType="prepend">
-                        <Button size="sm" classBtn="btn btn-light">
-                          -
-                        </Button>
-                      </InputGroupAddon>
-                      <Input
-                        type="text"
-                        className="border-0 text-center"
-                        value="0"
-                        size="sm"
-                        style={{ fontWeigth: "bold" }}
-                      />
-                      <InputGroupAddon addonType="append">
-                        <Button size="sm" classBtn="btn btn-light">
-                          +
-                        </Button>
-                      </InputGroupAddon>
-                    </InputGroup>
-                  </td>
-                  <td className="pt-5">
-                    <small>
-                      <strong>Rp. 120.000</strong>
-                    </small>
-                  </td>
-                  <td className="pt-5">
-                    <small>
-                      <strong>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      </strong>
-                    </small>
-                  </td>
-                </tr>
-              </tbody>
+              <tbody>{rowItem}</tbody>
             </Table>
             <Row className="justify-content-between">
               <Col xs="2">
-                <Button classBtn="btn btn-dark mb-2" size="sm">
+                <Button
+                  classBtn="btn btn-dark mb-2"
+                  size="sm"
+                  clicked={this.onContinueShopping}
+                >
                   CONTINUE SHOPPING
                 </Button>
                 <Button classBtn="btn btn-dark" size="sm">
@@ -119,7 +101,12 @@ class BodyHomepage extends Component {
                 }
               >
                 <small>SUBTOTAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>
-                <b>Rp. 120.000</b>
+                <b>
+                  Rp.{" "}
+                  {this.props.dataCart.length
+                    ? rupiahFormat(this.state.subtotal)
+                    : 0}
+                </b>
               </Col>
             </Row>
             <Row>
@@ -128,9 +115,16 @@ class BodyHomepage extends Component {
                 xs="3"
                 className="d-flex align-items-center justify-content-center float-right"
               >
-                <Button classBtn="btn" size="sm" background="#234090">
-                  <small>CHECKOUT</small>
-                </Button>
+                <NavLink to="/order" style={{ width: "100%" }}>
+                  <Button
+                    classBtn="btn"
+                    size="sm"
+                    background="#234090"
+                    width="100%"
+                  >
+                    <small>ORDER</small>
+                  </Button>
+                </NavLink>
               </Col>
             </Row>
           </Col>
@@ -140,4 +134,24 @@ class BodyHomepage extends Component {
   }
 }
 
-export default BodyHomepage;
+const mapStateToProps = (state) => {
+  return {
+    dataCart: state.cart.dataCart,
+    token: state.auth.token,
+    subtotal: state.cart.subtotal,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onInitCart: (token) => dispatch(actionCreators.initCart(token)),
+    onIncDecCart: (token, bookId, value) =>
+      dispatch(actionCreators.incDecCart(token, bookId, value)),
+    onDeleteItemCart: (token, cartId) =>
+      dispatch(actionCreators.deleteItemCart(token, cartId)),
+  };
+};
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(BodyHomepage)
+);

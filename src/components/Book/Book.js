@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {
   Card,
@@ -11,12 +11,20 @@ import {
 } from "reactstrap";
 
 import classes from "./Book.module.css";
-import Cover from "../../assets/Images/cover.svg";
+// import Cover from "../../assets/Images/cover.svg";
 import Star from "../../assets/Icon/star-group.svg";
 
 import * as actionCreators from "../../store/actions";
 
-const book = (props) => {
+const useBook = (props) => {
+  const addButtonHandler = () => {
+    if (props.isAuth) {
+      props.addToCart();
+    } else {
+      props.onModalToggle();
+    }
+  };
+
   return (
     <div>
       <Card className={classes.Book + " p-0 hvr-backward"}>
@@ -41,11 +49,8 @@ const book = (props) => {
                 <img src={Star} alt="" />
               </CardText>
               <CardText className="text-success">Rp. {props.price}</CardText>
-              <Button
-                className="rounded-pill"
-                onClick={props.isAuth ? props.addToCart : props.onModalToggle}
-              >
-                <b>+</b> &nbsp;Add to cart
+              <Button className="rounded-pill" onClick={addButtonHandler}>
+                <b>+</b> &nbsp; add to cart
               </Button>
             </Col>
           </Row>
@@ -58,6 +63,7 @@ const book = (props) => {
 const mapStateToProps = (state) => {
   return {
     isAuth: state.auth.token ? true : false,
+    dataCart: state.cart.dataCart,
   };
 };
 
@@ -67,4 +73,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(book);
+export default connect(mapStateToProps, mapDispatchToProps)(useBook);

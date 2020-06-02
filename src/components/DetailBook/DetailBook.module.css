@@ -18,3 +18,14 @@
 .BtnBorderRight {
   border-left: 1px solid gray;
 }
+
+.BtnAddToCart:hover {
+  border: none !important;
+  background: white !important;
+  color: #2d3034 !important;
+  font-weight: 600 !important;
+}
+
+.BtnDisabled {
+  cursor: not-allowed !important;
+}

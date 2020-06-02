@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { Row, Col, Button } from "reactstrap";
+import { Row, Col } from "reactstrap";
 
 import classes from "./Books.module.css";
 import Book from "../../components/Book/Book";
@@ -11,9 +11,13 @@ import BookLoader from "../../components/UI/BookLoader/BookLoader";
 import * as actionCreators from "../../store/actions";
 import { rupiahFormat } from "../../store/utility";
 
-class Books extends Component {
+class Books extends PureComponent {
   componentDidMount() {
     this.props.onInitBooks();
+  }
+
+  componentDidUpdate() {
+    this.props.onInitCart(this.props.token);
   }
 
   onCardClickHandler = (slug) => {
@@ -41,6 +45,7 @@ class Books extends Component {
       this.props.books.map((book) => (
         <Col xs="6" className="mb-4" key={book.slug}>
           <Book
+            id={book.id}
             title={book.title}
             cover={book.cover}
             author={book.author}
@@ -115,6 +120,7 @@ const mapDispathToProps = (dispatch) => {
     onInitDetailBookStart: () => dispatch(actionCreators.initDetailBookStart()),
     onIncDecCart: (token, bookId, value) =>
       dispatch(actionCreators.incDecCart(token, bookId, value)),
+    onInitCart: (token) => dispatch(actionCreators.initCart(token)),
   };
 };
 

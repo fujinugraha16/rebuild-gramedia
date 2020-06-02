@@ -57,3 +57,14 @@
   top: 60px;
   z-index: 1000 !important;
 }
+
+.Circle {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  color: white;
+  font-size: 10px;
+  text-align: center;
+  top: 5px;
+  right: 0;
+}

@@ -1,4 +1,5 @@
 import * as actionTypes from "./actionTypes";
+import * as actionCreators from "./index";
 
 export const modalToggle = () => {
   return {
@@ -34,6 +35,7 @@ export const initAuth = () => {
       };
       dispatch(setAuthData(dataAuth));
       dispatch(setToken(token));
+      dispatch(actionCreators.initCart(token));
     } else {
       dispatch(setAuthData({}));
       dispatch(setToken(null));
@@ -91,6 +93,7 @@ export const authProcess = (authType, formData) => {
           dispatch(setToken(data.data.token));
           localStorage.setItem("token", data.data.token);
           localStorage.setItem("name", data.data.name);
+          dispatch(actionCreators.initCart(data.data.token));
         }
         dispatch(modalLogout(false));
       })
@@ -109,6 +112,7 @@ export const logout = () => {
   localStorage.removeItem("name");
   return (dispatch) => {
     dispatch(cleanDataAuth());
+    dispatch(actionCreators.cleanDataCart());
   };
 };
 

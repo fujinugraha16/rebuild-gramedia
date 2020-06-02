@@ -17,8 +17,9 @@ class FilterCategoryBook extends Component {
     this.props.history.push("/detail-book/" + slug);
   };
 
-  addToCartHandler = () => {
+  addToCartHandler = (token, bookId, value) => {
     console.log("add to cart");
+    this.props.onIncDecCart(token, bookId, value);
   };
 
   nextPageHandler = (event) => {
@@ -41,7 +42,9 @@ class FilterCategoryBook extends Component {
             author={book.author}
             price={rupiahFormat(book.price)}
             clicked={() => this.onCardClickHandler(book.slug)}
-            addToCart={this.addToCartHandler}
+            addToCart={() =>
+              this.addToCartHandler(this.props.token, book.id, 1)
+            }
           />
         </Col>
       ))
@@ -97,12 +100,15 @@ const mapStateToProps = (state) => {
     books: state.book.books,
     search: state.book.search,
     dataPage: state.book.dataPage,
+    token: state.auth.token,
   };
 };
 
 const mapDispathToProps = (dispatch) => {
   return {
     onInitDetailBookStart: () => dispatch(actionCreators.initDetailBookStart()),
+    onIncDecCart: (token, bookId, value) =>
+      dispatch(actionCreators.incDecCart(token, bookId, value)),
   };
 };
 

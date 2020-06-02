@@ -20,4 +20,10 @@ export {
   cleanDataAuth,
   initAuth,
 } from "./auth";
-export { initCart, incDecCart } from "./cart.js";
+export {
+  initCart,
+  incDecCart,
+  cleanDataCart,
+  deleteItemCart,
+  setSubTotal,
+} from "./cart.js";

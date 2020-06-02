@@ -26,7 +26,7 @@ class BodyOrder extends Component {
           }}
         >
           <Col>
-            <PageTab title="My Order" path="My Order" />
+            <PageTab title="Order" path="Order" />
             <Row className="mt-5">
               <Col xs="7">
                 <Card className="border-dark rounded">

@@ -11,3 +11,9 @@
 .Book h4:hover {
   cursor: pointer;
 }
+
+.BtnAdded {
+  background: white !important;
+  border: none !important;
+  color: #2d3034 !important;
+}
