@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { Redirect, withRouter, NavLink } from "react-router-dom";
-import { Row, Col, Table } from "reactstrap";
+import { Row, Col, Table, Spinner } from "reactstrap";
 
 import classes from "./BodyCheckout.module.css";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
@@ -16,18 +16,33 @@ import { rupiahFormat } from "../../store/utility";
 class BodyHomepage extends PureComponent {
   state = {
     subtotal: this.props.subtotal,
+    loading: false,
   };
 
   componentDidMount() {
     this.props.onInitCart(this.props.token);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.dataCart !== this.props.dataCart) {
+      this.setState({
+        loading: false,
+      });
+    }
+  }
+
   onIncDecHandler = (token, bookId, value) => {
     this.props.onIncDecCart(token, bookId, value);
+    this.setState({
+      loading: true,
+    });
   };
 
   onRemoveHandler = (token, cartId) => {
     this.props.onDeleteItemCart(token, cartId);
+    this.setState({
+      loading: true,
+    });
   };
 
   onContinueShopping = () => {
@@ -54,7 +69,13 @@ class BodyHomepage extends PureComponent {
       );
     });
 
-    const redirect = !this.props.dataCart.length ? <Redirect to="/" /> : "";
+    const redirect = !this.props.isAuth ? <Redirect to="/" /> : "";
+
+    const subtotal = (
+      <b>
+        Rp. {this.props.dataCart.length ? rupiahFormat(this.state.subtotal) : 0}
+      </b>
+    );
 
     return (
       <Aux>
@@ -83,15 +104,15 @@ class BodyHomepage extends PureComponent {
             <Row className="justify-content-between">
               <Col xs="2">
                 <Button
-                  classBtn="btn btn-dark mb-2"
+                  classBtn={classes.BtnCS + " btn btn-dark mb-2"}
                   size="sm"
                   clicked={this.onContinueShopping}
                 >
                   CONTINUE SHOPPING
                 </Button>
-                <Button classBtn="btn btn-dark" size="sm">
+                {/* <Button classBtn={classes.BtnCS + " btn btn-dark"} size="sm">
                   CALCULATE SHIPPING
-                </Button>
+                </Button> */}
               </Col>
               <Col
                 xs="3"
@@ -101,12 +122,11 @@ class BodyHomepage extends PureComponent {
                 }
               >
                 <small>SUBTOTAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>
-                <b>
-                  Rp.{" "}
-                  {this.props.dataCart.length
-                    ? rupiahFormat(this.state.subtotal)
-                    : 0}
-                </b>
+                {this.state.loading ? (
+                  <Spinner size="sm" color="dark" />
+                ) : (
+                  subtotal
+                )}
               </Col>
             </Row>
             <Row>
@@ -117,12 +137,19 @@ class BodyHomepage extends PureComponent {
               >
                 <NavLink to="/order" style={{ width: "100%" }}>
                   <Button
-                    classBtn="btn"
+                    classBtn={
+                      !this.state.loading
+                        ? classes.BtnOrder + " btn"
+                        : classes.BtnNotAllowed + " btn"
+                    }
                     size="sm"
                     background="#234090"
                     width="100%"
+                    disabled={this.state.loading}
                   >
-                    <small>ORDER</small>
+                    <small>
+                      <b>CONTINUE ORDER</b>
+                    </small>
                   </Button>
                 </NavLink>
               </Col>
@@ -139,6 +166,7 @@ const mapStateToProps = (state) => {
     dataCart: state.cart.dataCart,
     token: state.auth.token,
     subtotal: state.cart.subtotal,
+    isAuth: state.auth.token ? true : false,
   };
 };
 

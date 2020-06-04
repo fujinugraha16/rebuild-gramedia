@@ -28,3 +28,11 @@ export const CLEAN_DATA_CART = "CLEAN_DATA_CART";
 export const DELETE_ITEM_CART = "DELETE_ITEM_CART";
 export const SET_SUB_TOTAL = "SET_SUB_TOTAL";
 export const SET_AMOUNT_CART = "SET_AMOUNT_CART";
+
+export const SET_PROVINCE = "SET_PROVINCE";
+export const SET_CITY = "SET_CITY";
+export const SET_DISTRICT = "SET_DISTRICT";
+export const SET_COURIER = "SET_COURIER";
+export const SET_LIST_ADDRESS = "SET_LIST_ADDRESS";
+export const SET_SHIPPING_METHOD = "SET_SHIPPING_METHOD";
+export const SET_ORDER = "SET_ORDER";

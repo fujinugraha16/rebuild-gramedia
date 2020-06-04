@@ -67,7 +67,11 @@ class Header extends Component {
           }
           style={{ position: "relative" }}
         >
-          <div className={classes.Circle + " rounded-circle bg-danger"}>
+          <div
+            className={classes.Circle + " rounded-circle bg-danger"}
+            onClick={this.toggleCartModal}
+            style={{ cursor: "pointer" }}
+          >
             {this.props.amountCart}
           </div>
           <img alt="" src={Troli} onClick={this.toggleCartModal} />
@@ -127,9 +131,7 @@ class Header extends Component {
               </NavItem>
               <NavItem className="mr-4">
                 {this.props.isAuth ? (
-                  <NavLink to="/order" activeClassName={classes.active}>
-                    My Order
-                  </NavLink>
+                  <NavLink to="#">My Order</NavLink>
                 ) : (
                   <a href="#" onClick={this.props.onModalToggle}>
                     My Order

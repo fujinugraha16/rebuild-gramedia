@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import {
   Row,
   Col,
@@ -45,6 +46,13 @@ const useDetailBook = (props) => {
     }
   };
 
+  const buyNowHandler = (token, bookId) => {
+    if (qty > 0) {
+      props.onIncDecCart(token, bookId, qty);
+      props.history.push("/checkout");
+    }
+  };
+
   const contentTab1 = props.detailBook.description;
   const contentTab2 = (
     <div>
@@ -81,87 +89,84 @@ const useDetailBook = (props) => {
                   <CardTitle>
                     <h3>{props.detailBook.title}</h3>
                   </CardTitle>
-                  <CardText>
-                    <h5 className="text-muted mt-3">
-                      {props.detailBook.author}
-                    </h5>
-                  </CardText>
-                  <CardText className="mt-4">
+
+                  <h5 className="text-muted mt-3">{props.detailBook.author}</h5>
+
+                  <div className="mt-4">
                     <img src={Star} alt="" />
-                  </CardText>
-                  <CardText className="mt-4">
+                  </div>
+                  <div className="mt-4">
                     <h4 className="font-weight-bold">
                       Rp. {rupiahFormat(props.detailBook.price)}
                     </h4>
+                  </div>
+                  <CardText className="mt-4 text-justify">
+                    {props.detailBook.description}
                   </CardText>
-                  <CardText className="mt-4">
-                    <p className="text-justify">
-                      {props.detailBook.description}
-                    </p>
-                  </CardText>
-                  <CardText className="mt-4">
+                  <div className="mt-4">
                     <h6>
                       <b>Availability:</b> In Stock
                     </h6>
-                  </CardText>
-                  <CardText>
-                    <Row>
-                      <Col>
-                        <InputGroup className="mt-2">
-                          <InputGroupAddon addonType="prepend">
-                            <Button
-                              classBtn="btn btn-light"
-                              clicked={decHandler}
-                            >
-                              -
-                            </Button>
-                          </InputGroupAddon>
-                          <Input
-                            type="text"
-                            className="border-0 text-center"
-                            value={qty}
-                            readOnly
-                          />
-                          <InputGroupAddon addonType="append">
-                            <Button
-                              classBtn="btn btn-light"
-                              clicked={incHandler}
-                            >
-                              +
-                            </Button>
-                          </InputGroupAddon>
-                        </InputGroup>
-                      </Col>
-                      <Col>
-                        <Button
-                          classBtn={
-                            (qty ? classes.BtnAddToCart : classes.BtnDisabled) +
-                            " rounded-pill"
-                          }
-                          background="#2d3034"
-                          width="100%"
-                          height="47px"
-                          disabled={!qty}
-                          clicked={() =>
-                            incDecHandler(props.token, props.detailBook.id)
-                          }
-                        >
-                          <b>+</b> &nbsp;Add to cart
-                        </Button>
-                      </Col>
-                      <Col>
-                        <Button
-                          classBtn="rounded-pill"
-                          background="#234090"
-                          width="100%"
-                          height="47px"
-                        >
-                          Buy Now
-                        </Button>
-                      </Col>
-                    </Row>
-                  </CardText>
-                  <CardText className="mt-4">
+                  </div>
+
+                  <Row>
+                    <Col>
+                      <InputGroup className="mt-2">
+                        <InputGroupAddon addonType="prepend">
+                          <Button classBtn="btn btn-light" clicked={decHandler}>
+                            -
+                          </Button>
+                        </InputGroupAddon>
+                        <Input
+                          type="text"
+                          className="border-0 text-center"
+                          value={qty}
+                          readOnly
+                        />
+                        <InputGroupAddon addonType="append">
+                          <Button classBtn="btn btn-light" clicked={incHandler}>
+                            +
+                          </Button>
+                        </InputGroupAddon>
+                      </InputGroup>
+                    </Col>
+                    <Col>
+                      <Button
+                        classBtn={
+                          (qty ? classes.BtnAddToCart : classes.BtnDisabled) +
+                          " rounded-pill"
+                        }
+                        background="#2d3034"
+                        width="100%"
+                        height="47px"
+                        disabled={!qty}
+                        clicked={() =>
+                          incDecHandler(props.token, props.detailBook.id)
+                        }
+                      >
+                        <b>+</b> &nbsp;Add to cart
+                      </Button>
+                    </Col>
+                    <Col>
+                      <Button
+                        classBtn={
+                          (qty ? classes.BtnBuyNow : classes.BtnDisabled) +
+                          " rounded-pill"
+                        }
+                        background="#234090"
+                        width="100%"
+                        height="47px"
+                        disabled={!qty}
+                        clicked={() =>
+                          buyNowHandler(props.token, props.detailBook.id)
+                        }
+                      >
+                        Buy Now
+                      </Button>
+                    </Col>
+                  </Row>
+
+                  <div className="mt-4">
                     <h6>
                       <b>Share:</b>
                     </h6>
@@ -176,7 +181,7 @@ const useDetailBook = (props) => {
                         <img alt="" src={TW} />
                       </Col>
                     </Row>
-                  </CardText>
+                  </div>
                 </Col>
               </Row>
             </CardBody>
@@ -212,4 +217,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(useDetailBook);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(useDetailBook)
+);

@@ -4,7 +4,9 @@ import { ListGroupItem, Row, Col } from "reactstrap";
 import { rupiahFormat } from "../../../store/utility";
 
 const listGroupItem = (props) => (
-  <ListGroupItem style={{ background: "#2d3034", borderColor: "#2d3034" }}>
+  <ListGroupItem
+    style={{ background: props.background, borderColor: props.border }}
+  >
     <Row className="px-2 py-1 d-flex align-items-center">
       <Col xs="3" className="p-0">
         <div
@@ -25,7 +27,7 @@ const listGroupItem = (props) => (
         <Row className="mb-2">
           <small>Rp. {rupiahFormat(props.book.price * props.quantity)}</small>
         </Row>
-        <Row>
+        <Row className={props.notRmvBtn}>
           <small
             className="text-muted"
             onClick={props.rmvClicked}

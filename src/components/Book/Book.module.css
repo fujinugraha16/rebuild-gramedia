@@ -12,7 +12,7 @@
   cursor: pointer;
 }
 
-.BtnAdded {
+.BtnAdded:hover {
   background: white !important;
   border: none !important;
   color: #2d3034 !important;

@@ -49,7 +49,10 @@ const useBook = (props) => {
                 <img src={Star} alt="" />
               </CardText>
               <CardText className="text-success">Rp. {props.price}</CardText>
-              <Button className="rounded-pill" onClick={addButtonHandler}>
+              <Button
+                className={classes.BtnAdded + " rounded-pill"}
+                onClick={addButtonHandler}
+              >
                 <b>+</b> &nbsp; add to cart
               </Button>
             </Col>

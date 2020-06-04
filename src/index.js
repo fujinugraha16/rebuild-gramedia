@@ -11,6 +11,7 @@ import * as serviceWorker from "./serviceWorker";
 import bookReducer from "./store/reducers/book";
 import authReducer from "./store/reducers/auth";
 import cartReducer from "./store/reducers/cart";
+import orderReducer from "./store/reducers/order";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   book: bookReducer,
   auth: authReducer,
   cart: cartReducer,
+  order: orderReducer,
 });
 
 const store = createStore(

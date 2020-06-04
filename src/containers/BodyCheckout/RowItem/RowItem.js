@@ -10,9 +10,10 @@ import {
 } from "reactstrap";
 
 import Button from "../../../components/Button/Button";
+import { FaTimes } from "react-icons/fa";
 
-import * as actionCreators from "../../../store/actions";
 import { rupiahFormat } from "../../../store/utility";
+import classes from "./RowItem.module.css";
 
 const useRowItem = (props) => {
   const [qty, setQty] = useState(props.quantity);
@@ -89,11 +90,18 @@ const useRowItem = (props) => {
         </small>
       </td>
       <td className="pt-5">
-        <small onClick={props.rmvClicked} style={{ cursor: "pointer" }}>
+        <div
+          onClick={props.rmvClicked}
+          className={classes.BtnRmv}
+          style={{ cursor: "pointer" }}
+        >
+          <FaTimes />
+        </div>
+        {/* <small onClick={props.rmvClicked} style={{ cursor: "pointer" }}>
           <strong>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </strong>
-        </small>
+        </small> */}
       </td>
     </tr>
   );

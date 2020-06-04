@@ -27,3 +27,14 @@ export {
   deleteItemCart,
   setSubTotal,
 } from "./cart.js";
+export {
+  initProvince,
+  initCity,
+  initDistrict,
+  initCourier,
+  initListAddress,
+  initShippingMethod,
+  setShippingMethod,
+  initOrder,
+  placeOrder,
+} from "./order";

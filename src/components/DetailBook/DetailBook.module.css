@@ -26,6 +26,13 @@
   font-weight: 600 !important;
 }
 
+.BtnBuyNow:hover {
+  border: none !important;
+  background: white !important;
+  color: #234090 !important;
+  font-weight: 600 !important;
+}
+
 .BtnDisabled {
   cursor: not-allowed !important;
 }

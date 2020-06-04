@@ -15,6 +15,7 @@ import {
 
 import classes from "./CartModal.module.css";
 import ListGroupItem from "./ListGroupItem/ListGroupItem";
+import { FaTimes } from "react-icons/fa";
 
 import * as actionCreators from "../../store/actions";
 import { rupiahFormat } from "../../store/utility";
@@ -22,22 +23,34 @@ import { rupiahFormat } from "../../store/utility";
 class CartModal extends PureComponent {
   state = {
     subtotal: 0,
+    loading: false,
   };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.dataCart.length !== this.props.dataCart.length) {
+      this.setState({
+        loading: false,
+      });
+    }
+  }
 
   removeHandler = (token, cartId) => {
     this.props.onDeleteItemCart(token, cartId);
     this.props.onInitCart(token);
+    this.setState({
+      loading: true,
+    });
   };
 
   render() {
-    // const spinner = (
-    //   <Row className="d-flex justify-content-center">
-    //     <Spinner
-    //       color="light"
-    //       style={{ width: "10rem", height: "10rem", margin: "50px auto" }}
-    //     />
-    //   </Row>
-    // );
+    const spinner = (
+      <Row className="d-flex justify-content-center">
+        <Spinner
+          color="light"
+          style={{ width: "7rem", height: "7rem", margin: "20px auto" }}
+        />
+      </Row>
+    );
 
     let total = 0;
     const listGroup = !this.props.dataCart.length ? (
@@ -57,11 +70,17 @@ class CartModal extends PureComponent {
               quantity={item.quantity}
               key={item.book_id}
               rmvClicked={() => this.removeHandler(this.props.token, item.id)}
+              background="#2d3034"
+              border="#2d3034"
             />
           );
         })}
       </ListGroup>
     );
+
+    const subtotal = `Rp. ${
+      this.props.dataCart.length ? rupiahFormat(this.state.subtotal) : 0
+    }`;
 
     return (
       <div
@@ -74,25 +93,22 @@ class CartModal extends PureComponent {
                 <small>MY CART</small>
               </Col>
               <Col className="text-right">
-                <small
+                <div
                   className={classes.BtnClose}
                   onClick={this.props.clicked}
                   style={{ cursor: "pointer" }}
                 >
-                  X
-                </small>
+                  <FaTimes />
+                </div>
               </Col>
             </Row>
           </CardHeader>
-          <CardBody>{listGroup}</CardBody>
+          <CardBody>{this.state.loading ? spinner : listGroup}</CardBody>
           <CardFooter>
             <Row className="d-flex justify-content-between my-2 px-3">
               <Col>Subtotal</Col>
               <Col className="text-right">
-                Rp.{" "}
-                {this.props.dataCart.length
-                  ? rupiahFormat(this.state.subtotal)
-                  : 0}
+                {this.state.loading ? <Spinner size="sm" /> : subtotal}
               </Col>
             </Row>
             <Row className="mb-3 px-3">
@@ -106,6 +122,13 @@ class CartModal extends PureComponent {
                   className={classes.BtnCheckout}
                   onClick={this.props.clicked}
                   disabled={!this.props.dataCart.length}
+                  style={{
+                    cursor: this.props.dataCart.length
+                      ? this.state.loading
+                        ? "not-allowed"
+                        : "pointer"
+                      : "not-allowed",
+                  }}
                 >
                   CONTINUE CHECKOUT
                 </Button>
