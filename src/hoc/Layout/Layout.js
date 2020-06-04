@@ -10,6 +10,7 @@ import BodyCheckout from "../../containers/BodyCheckout/BodyCheckout";
 import BodyOrder from "../../containers/BodyOrder/BodyOrder";
 import ModalAuth from "../../components/ModalAuth/ModalAuth";
 import BodyCategoryBook from "../../containers/BodyCategoryBook/BodyCategoryBook";
+import BodyMyOrder from "../../containers/BodyMyOrder/BodyMyOrder";
 
 class Layout extends Component {
   render() {
@@ -18,6 +19,7 @@ class Layout extends Component {
         <Header />
         <ModalAuth />
         <Switch>
+          <Route path="/my-order" component={BodyMyOrder} />
           <Route path="/checkout" component={BodyCheckout} />
           <Route path="/order" component={BodyOrder} />
           <Route path="/detail-book/:slug" component={BodyDetailBook} />

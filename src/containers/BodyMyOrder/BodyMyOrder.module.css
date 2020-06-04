@@ -1,0 +1,28 @@
+.TableMyOrder thead th {
+  text-align: center !important;
+}
+
+.TableMyOrder tbody td {
+  text-align: center !important;
+}
+
+.BoxCheckoutBottom {
+  border-top: 3px solid #2d3034;
+}
+
+.BtnOrder:hover {
+  color: #234090 !important;
+  background: white !important;
+  border-color: white !important;
+}
+
+.BtnCS:hover {
+  color: #2d3034 !important;
+  background: white !important;
+  border-color: white !important;
+  font-weight: bold;
+}
+
+.BtnNotAllowed {
+  cursor: not-allowed !important;
+}

@@ -121,6 +121,7 @@ const mapDispathToProps = (dispatch) => {
     onIncDecCart: (token, bookId, value) =>
       dispatch(actionCreators.incDecCart(token, bookId, value)),
     onInitCart: (token) => dispatch(actionCreators.initCart(token)),
+    onInitOrder: (token) => dispatch(actionCreators.initOrder(token)),
   };
 };
 

@@ -279,11 +279,12 @@ export const placeOrder = (token, rawData) => {
 
 export const initOrder = (token) => {
   return (dispatch) => {
-    var myHeaders = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
-    myHeaders.append("Authorization", "Bearer " + token);
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
-    var requestOptions = {
+    const requestOptions = {
       method: "GET",
       headers: myHeaders,
       redirect: "follow",
@@ -297,8 +298,8 @@ export const initOrder = (token) => {
       .then((res) => {
         const json = JSON.parse(res);
         const data = json.data;
-        dispatch(setOrder(data));
-        console.log(json);
+        dispatch(setOrder(data.data));
+        // console.log(data.data);
       })
       .catch((error) => console.log("error", error));
   };

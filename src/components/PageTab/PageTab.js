@@ -15,7 +15,7 @@ const pageTab = (props) => {
         <Col xs="3" className="d-flex align-items-center justify-content-end">
           <div>
             <h6>
-              Home / Cart / <b>{props.path}</b>
+              Home / <b>{props.path}</b>
             </h6>
           </div>
         </Col>

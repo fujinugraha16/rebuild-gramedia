@@ -36,6 +36,7 @@ export const initAuth = () => {
       dispatch(setAuthData(dataAuth));
       dispatch(setToken(token));
       dispatch(actionCreators.initCart(token));
+      dispatch(actionCreators.initOrder(token));
     } else {
       dispatch(setAuthData({}));
       dispatch(setToken(null));
@@ -94,6 +95,7 @@ export const authProcess = (authType, formData) => {
           localStorage.setItem("token", data.data.token);
           localStorage.setItem("name", data.data.name);
           dispatch(actionCreators.initCart(data.data.token));
+          dispatch(actionCreators.initOrder(data.data.token));
         }
         dispatch(modalLogout(false));
       })

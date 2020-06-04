@@ -13,7 +13,7 @@ import Button from "../../components/Button/Button";
 import * as actionCreators from "../../store/actions";
 import { rupiahFormat } from "../../store/utility";
 
-class BodyHomepage extends PureComponent {
+class BodyCheckout extends PureComponent {
   state = {
     subtotal: this.props.subtotal,
     loading: false,
@@ -181,5 +181,5 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(BodyHomepage)
+  connect(mapStateToProps, mapDispatchToProps)(BodyCheckout)
 );

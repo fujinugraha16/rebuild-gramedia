@@ -131,7 +131,7 @@ class Header extends Component {
               </NavItem>
               <NavItem className="mr-4">
                 {this.props.isAuth ? (
-                  <NavLink to="#">My Order</NavLink>
+                  <NavLink to="/my-order">My Order</NavLink>
                 ) : (
                   <a href="#" onClick={this.props.onModalToggle}>
                     My Order
