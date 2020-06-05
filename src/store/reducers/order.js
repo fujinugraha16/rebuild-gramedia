@@ -15,6 +15,9 @@ const initialState = {
   shipping: [],
   shippingMethod: null,
   dataOrder: [],
+  orderProcess: null,
+  myOrderProcess: null,
+  dataDetailOrder: null,
 };
 
 const setProvince = (state, action) => {
@@ -62,6 +65,20 @@ const setOrder = (state, action) => {
   });
 };
 
+const setOrderProcess = (state, action) => {
+  return updateObject(state, {
+    orderProcess: action.orderProcess,
+  });
+};
+
+const setMyOrderProcess = (state, action) => {
+  return updateObject(state, { myOrderProcess: action.myOrderProcess });
+};
+
+const setDetailOrder = (state, action) => {
+  return updateObject(state, { dataDetailOrder: action.dataDetailOrder });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SET_PROVINCE:
@@ -78,6 +95,12 @@ const reducer = (state = initialState, action) => {
       return setShippingMethod(state, action);
     case actionTypes.SET_ORDER:
       return setOrder(state, action);
+    case actionTypes.SET_ORDER_PROCESS:
+      return setOrderProcess(state, action);
+    case actionTypes.SET_MY_ORDER_PROCESS:
+      return setMyOrderProcess(state, action);
+    case actionTypes.SET_DETAIL_ORDER:
+      return setDetailOrder(state, action);
     default:
       return state;
   }

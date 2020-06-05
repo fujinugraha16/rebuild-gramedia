@@ -1,4 +1,5 @@
 import * as actionTypes from "./actionTypes.js";
+import * as actionCreators from "./index";
 
 export const setDataCart = (dataCart) => {
   return {
@@ -107,5 +108,29 @@ export const deleteItemCart = (token, cartId) => {
 export const cleanDataCart = () => {
   return {
     type: actionTypes.CLEAN_DATA_CART,
+  };
+};
+
+export const deleteAllCart = (token) => {
+  return (dispatch) => {
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", "Bearer " + token);
+    const urlencoded = new URLSearchParams();
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: "follow",
+    };
+
+    fetch("https://api.olshop.webapps.my.id/v1/cart/delete-all", requestOptions)
+      .then((res) => res.text())
+      .then((res) => {
+        dispatch(actionCreators.initCart(token));
+        console.log(JSON.parse(res));
+      })
+      .catch((error) => console.log("error", error));
   };
 };

@@ -1,0 +1,30 @@
+.ModalMyOrder {
+  padding: 30px !important;
+}
+
+.BtnPrimary {
+  margin-top: 20px;
+  background-color: #2d3034 !important;
+  color: white;
+  width: 100%;
+  border: none !important;
+}
+
+.BtnSecondary {
+  margin-top: 5px;
+  border: none !important;
+  background-color: white !important;
+  color: #234090 !important;
+  width: 100%;
+}
+
+.BtnPrimary:hover {
+  background-color: white !important;
+  color: #2d3034 !important;
+  font-weight: bold;
+  border: none;
+}
+
+.BtnSecondary:hover {
+  color: #abadac !important;
+}

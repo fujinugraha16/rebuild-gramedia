@@ -8,6 +8,8 @@ import Aux from "../../hoc/Auxiliary/Auxiliary";
 import PageTab from "../../components/PageTab/PageTab";
 import Button from "../../components/Button/Button";
 import RowItem from "./RowItem/RowItem";
+import ModalMyOrder from "../../components/ModalMyOrder/ModalMyOrder";
+import ModalShoppingDetail from "../../components/ModalShoppingDetail/ModalShoppingDetail";
 
 import * as actionCreators from "../../store/actions";
 import { rupiahFormat } from "../../store/utility";
@@ -15,14 +17,35 @@ import { rupiahFormat } from "../../store/utility";
 class BodyMyOrder extends PureComponent {
   state = {
     dataOrder: this.props.dataOrder,
+    modalOpen: false,
+    modalOpenDetail: false,
   };
-
-  componentDidUpdate() {
-    console.log(this.props.dataOrder);
-  }
 
   onContinueShopping = () => {
     this.props.history.push("/");
+  };
+
+  onModalToggle = () => {
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+    });
+  };
+
+  onModalToggleDetail = () => {
+    this.setState({
+      modalOpenDetail: !this.state.modalOpenDetail,
+    });
+  };
+
+  onCancelOrderHandler = (token, orderId) => {
+    this.props.onCancelOrder(token, orderId);
+    this.onModalToggle();
+  };
+
+  onDetailOrderHandler = (token, orderId) => {
+    this.props.onDetailOrder(token, orderId);
+    this.onModalToggleDetail();
+    this.props.onClearDetailOrder();
   };
 
   render() {
@@ -35,6 +58,9 @@ class BodyMyOrder extends PureComponent {
         totalPrice={item.total_price}
         postalFee={item.postal_fee}
         status={item.status_order}
+        statusNo={item.status}
+        cancelOrder={() => this.onCancelOrderHandler(this.props.token, item.id)}
+        detailOrder={() => this.onDetailOrderHandler(this.props.token, item.id)}
       />
     ));
 
@@ -74,6 +100,14 @@ class BodyMyOrder extends PureComponent {
             </Row>
           </Col>
         </Row>
+        <ModalMyOrder
+          modalOpen={this.state.modalOpen}
+          toggle={this.onModalToggle}
+        />
+        <ModalShoppingDetail
+          modalOpen={this.state.modalOpenDetail}
+          toggle={this.onModalToggleDetail}
+        />
       </Aux>
     );
   }
@@ -89,7 +123,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onInitOrder: (token) => dispatch(actionCreators.initOrder(token)),
+    onCancelOrder: (token, orderId) =>
+      dispatch(actionCreators.cancelOrder(token, orderId)),
+    onDetailOrder: (token, orderId) =>
+      dispatch(actionCreators.detailOrder(token, orderId)),
+    onClearDetailOrder: () => dispatch(actionCreators.clearDetailOrder()),
   };
 };
 

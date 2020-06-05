@@ -1,4 +1,5 @@
 import * as actionTypes from "./actionTypes";
+import * as actionCreators from "./index";
 import { rupiahFormat } from "../utility";
 
 export const setProvince = (province, dataProvince) => {
@@ -249,8 +250,16 @@ export const setOrder = (dataOrder) => {
   };
 };
 
+export const setOrderProcess = (orderProcess) => {
+  return {
+    type: actionTypes.SET_ORDER_PROCESS,
+    orderProcess,
+  };
+};
+
 export const placeOrder = (token, rawData) => {
   return (dispatch) => {
+    dispatch(setOrderProcess({}));
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer " + token);
@@ -270,10 +279,20 @@ export const placeOrder = (token, rawData) => {
     )
       .then((res) => res.text())
       .then((res) => {
+        const json = JSON.parse(res);
         dispatch(initOrder(token));
-        console.log(JSON.parse(res));
+        dispatch(setOrderProcess(json));
+        dispatch(actionCreators.deleteAllCart(token));
+        console.log(json);
       })
       .catch((error) => console.log("error", error));
+  };
+};
+
+export const setMyOrderProcess = (myOrderProcess) => {
+  return {
+    type: actionTypes.SET_MY_ORDER_PROCESS,
+    myOrderProcess,
   };
 };
 
@@ -291,7 +310,7 @@ export const initOrder = (token) => {
     };
 
     fetch(
-      "https://api.olshop.webapps.my.id/v1/order/list_order",
+      "https://api.olshop.webapps.my.id/v1/order/list_order?order_by=created_at",
       requestOptions
     )
       .then((res) => res.text())
@@ -302,5 +321,72 @@ export const initOrder = (token) => {
         // console.log(data.data);
       })
       .catch((error) => console.log("error", error));
+  };
+};
+
+export const cancelOrder = (token, orderId) => {
+  return (dispatch) => {
+    dispatch(setMyOrderProcess({}));
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://api.olshop.webapps.my.id/v1/order/" + orderId + "/cancel",
+      requestOptions
+    )
+      .then((res) => res.text())
+      .then((res) => {
+        const json = JSON.parse(res);
+        dispatch(setMyOrderProcess(json));
+        dispatch(initOrder(token));
+        console.log(json);
+      })
+      .catch((error) => console.log("error", error));
+  };
+};
+
+export const setDetailOrder = (dataDetailOrder) => {
+  return {
+    type: actionTypes.SET_DETAIL_ORDER,
+    dataDetailOrder,
+  };
+};
+
+export const detailOrder = (token, orderId) => {
+  return (dispatch) => {
+    dispatch(setDetailOrder(null));
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://api.olshop.webapps.my.id/v1/order/" + orderId + "/detail",
+      requestOptions
+    )
+      .then((res) => res.text())
+      .then((res) => {
+        const json = JSON.parse(res);
+        const data = json.data;
+        dispatch(setDetailOrder(data));
+        console.log(json);
+      })
+      .catch((error) => console.log("error", error));
+  };
+};
+
+export const clearDetailOrder = () => {
+  return (dispatch) => {
+    dispatch(setDetailOrder(null));
   };
 };

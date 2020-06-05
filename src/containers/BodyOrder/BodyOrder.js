@@ -16,6 +16,7 @@ import { FaExchangeAlt } from "react-icons/fa";
 import classes from "./BodyOrder.module.css";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 
+import ModalOrder from "../../components/ModalOrder/ModalOrder";
 import PageTab from "../../components/PageTab/PageTab";
 import Button from "../../components/Button/Button";
 
@@ -32,6 +33,7 @@ class BodyOrder extends PureComponent {
     selectedCourier: null,
     selectedShipping: null,
     rawData: null,
+    modalOpen: false,
   };
 
   componentDidMount() {
@@ -57,6 +59,12 @@ class BodyOrder extends PureComponent {
 
   onContinueShopping = () => {
     this.props.history.push("/");
+  };
+
+  onModalToggle = () => {
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+    });
   };
 
   selectedProvinceHandler = (selectedProvince) => {
@@ -146,32 +154,15 @@ class BodyOrder extends PureComponent {
     }
   };
 
-  onCalculateShippingHandler = () => {
-    let totalQty = 0;
-    this.props.dataCart.map((item) => {
-      totalQty = totalQty + item.quantity;
-      this.setState({
-        totalQty: this.state.Qty + parseInt(item.quantity),
-      });
-    });
-
-    this.props.address.map((item) => {
-      this.props.onInitShippingMethod(this.props.token, {
-        destination: item.district,
-        weight: 250 * totalQty,
-        courier: this.state.selectedCourier.value,
-      });
-    });
-  };
-
   onOrderHandler = () => {
     this.props.onPlaceOrder(this.props.token, this.state.rawData);
-    // console.log(JSON.stringify(JSON.stringify(this.state.rawData)));
+    this.onModalToggle();
   };
 
   render() {
     const redirect =
-      !this.props.dataCart.length || !this.props.isAuth ? (
+      (!this.props.dataCart.length || !this.props.isAuth) &&
+      !this.state.modalOpen ? (
         <Redirect to="/" />
       ) : (
         ""
@@ -298,7 +289,7 @@ class BodyOrder extends PureComponent {
                           <p className="text-muted m-0">{item.address}</p>
                           <p className="text-muted m-0">
                             {item.district_name}, {item.city_name},{" "}
-                            {item.province_name}, 40411
+                            {item.province_name}, {item.postal_code}
                           </p>
                         </Col>
                       ))}
@@ -326,6 +317,7 @@ class BodyOrder extends PureComponent {
                           id="courier"
                           options={this.props.courier}
                           selectedHandler={this.selectedCourierHandler}
+                          disabled={!this.props.courier || !this.props.address}
                         />
                       </Col>
                       <Col xs="6">
@@ -333,11 +325,13 @@ class BodyOrder extends PureComponent {
                           id="shipping"
                           options={this.props.shipping}
                           selectedHandler={this.selectedShippingHandler}
-                          disabled={!this.state.selectedCourier}
+                          disabled={
+                            !this.state.selectedCourier || !this.props.shipping
+                          }
                         />
                       </Col>
                     </Row>
-                    <Row className="mt-2">
+                    {/* <Row className="mt-2">
                       <Col>
                         <Button
                           classBtn={
@@ -358,7 +352,7 @@ class BodyOrder extends PureComponent {
                           CALCULATE SHIPPING
                         </Button>
                       </Col>
-                    </Row>
+                    </Row> */}
                   </CardBody>
                 </Card>
                 <Row className="mt-4">
@@ -478,6 +472,10 @@ class BodyOrder extends PureComponent {
             </Row>
           </Col>
         </Row>
+        <ModalOrder
+          modalOpen={this.state.modalOpen}
+          toggle={this.onModalToggle}
+        />
       </Aux>
     );
   }

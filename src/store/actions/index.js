@@ -26,6 +26,7 @@ export {
   cleanDataCart,
   deleteItemCart,
   setSubTotal,
+  deleteAllCart,
 } from "./cart.js";
 export {
   initProvince,
@@ -37,4 +38,7 @@ export {
   setShippingMethod,
   initOrder,
   placeOrder,
+  cancelOrder,
+  detailOrder,
+  clearDetailOrder,
 } from "./order";
