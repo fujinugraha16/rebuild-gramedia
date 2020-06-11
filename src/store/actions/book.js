@@ -70,7 +70,7 @@ export const searchBooks = (keyword) => {
     }
 
     fetch(
-      "http://api.olshop.webapps.my.id/v1/book?keyword=" + keyword,
+      "https://api.olshop.webapps.my.id/v1/book?keyword=" + keyword,
       requestOptions
     )
       .then((res) => res.text())
@@ -128,12 +128,16 @@ export const initCategoryBook = () => {
 
 export const initDetailBook = (slug) => {
   return (dispatch) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+
     const requestOptions = {
       method: "GET",
+      headers: myHeaders,
       redirect: "follow",
     };
 
-    fetch("http://api.olshop.webapps.my.id/v1/book/" + slug, requestOptions)
+    fetch("https://api.olshop.webapps.my.id/v1/book/" + slug, requestOptions)
       .then((res) => res.text())
       .then(async (res) => {
         const json = JSON.parse(res);

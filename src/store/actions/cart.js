@@ -38,7 +38,6 @@ export const initCart = (token) => {
       .then((res) => {
         const json = JSON.parse(res);
         const data = json.data;
-        console.log(json);
         dispatch(setDataCart(data));
         dispatch(setAmountCart(data.length));
       })
@@ -67,7 +66,6 @@ export const incDecCart = (token, bookId, value) => {
       .then((res) => res.text())
       .then((res) => {
         const json = JSON.parse(res);
-        console.log(json);
         dispatch(initCart(token));
       })
       .catch((error) => console.log("error", error));
@@ -99,7 +97,6 @@ export const deleteItemCart = (token, cartId) => {
         if (json.success) {
           dispatch(initCart(token));
         }
-        console.log(json);
       })
       .catch((error) => console.log("error", error));
   };
@@ -129,7 +126,6 @@ export const deleteAllCart = (token) => {
       .then((res) => res.text())
       .then((res) => {
         dispatch(actionCreators.initCart(token));
-        console.log(JSON.parse(res));
       })
       .catch((error) => console.log("error", error));
   };

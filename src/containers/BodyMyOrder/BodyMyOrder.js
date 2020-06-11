@@ -66,7 +66,7 @@ class BodyMyOrder extends PureComponent {
 
     return (
       <Aux>
-        {/* {redirect} */}
+        {redirect}
         <Row
           style={{
             padding: "0 170px",

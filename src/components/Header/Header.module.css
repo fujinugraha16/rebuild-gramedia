@@ -1,6 +1,6 @@
 .Header {
   padding: 12px 72px;
-  background-color: white;
+  background: #f8f9fa !important;
 }
 
 .Header img {

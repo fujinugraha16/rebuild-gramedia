@@ -117,13 +117,22 @@ class Header extends Component {
         className={classes.Header + " shadow fixed-top"}
         onMouseLeave={this.closeDropdown}
       >
-        <Navbar color="light" light expand="md">
-          <NavbarBrand href="#">
+        <Navbar
+          color="light"
+          light
+          expand="md"
+          style={{ backgroundColor: "#fff !important" }}
+        >
+          <NavbarBrand href="#" style={{ backgroundColor: "#fff !important" }}>
             <img alt="" src={Logo} style={{ width: "85%" }} />
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="mr-auto" navbar>
+            <Nav
+              className="mr-auto"
+              navbar
+              style={{ backgroundColor: "#fff !important" }}
+            >
               <NavItem className="mr-4">
                 <NavLink to="/" exact activeClassName={classes.active}>
                   Bookstore

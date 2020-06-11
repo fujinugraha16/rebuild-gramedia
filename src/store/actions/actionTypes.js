@@ -1,3 +1,4 @@
+//actionTypes.js
 export const INIT_BOOKS = "INIT_BOOKS";
 export const SET_BOOKS = "SET_BOOKS";
 export const SEARCH_BOOKS = "SEARCH_BOOKS";

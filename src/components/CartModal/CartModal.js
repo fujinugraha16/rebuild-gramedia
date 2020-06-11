@@ -115,7 +115,7 @@ class CartModal extends PureComponent {
               <NavLink
                 to="/checkout"
                 className="d-flex justify-content-center"
-                style={{ width: "100%" }}
+                style={{ width: "100%", background: "none" }}
               >
                 <Button
                   size="sm"

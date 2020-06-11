@@ -31,7 +31,6 @@ export const initProvince = (token) => {
           province.push({ value: item.province_id, label: item.province })
         );
         dispatch(setProvince(province, dataProvince));
-        console.log(province);
       })
       .catch((error) => console.log("error", error));
   };
@@ -72,7 +71,6 @@ export const initCity = (token, provinceId) => {
           })
         );
         dispatch(setCity(city, dataCity));
-        console.log(city);
       })
       .catch((error) => console.log("error", error));
   };
@@ -113,7 +111,6 @@ export const initDistrict = (token, cityId) => {
           })
         );
         dispatch(setDistrict(district, dataDistrict));
-        console.log(district);
       })
       .catch((error) => console.log("error", error));
   };
@@ -148,7 +145,6 @@ export const initCourier = (token) => {
           courier.push({ value: item.code, label: item.name })
         );
         dispatch(setCourier(courier, dataCourier));
-        console.log(courier);
       })
       .catch((error) => console.log("error", error));
   };
@@ -180,7 +176,6 @@ export const initListAddress = (token) => {
         const dataAddress = json.data.data;
         const address = dataAddress.filter((item) => item.is_primary === 1);
         dispatch(setListAddress(address, dataAddress));
-        console.log(address);
       })
       .catch((error) => console.log("error", error));
   };
@@ -237,7 +232,6 @@ export const initShippingMethod = (token, dataShipping) => {
           })
         );
         dispatch(setShippingMethod(shipping, data[0]));
-        console.log(shipping);
       })
       .catch((error) => console.log("error", error));
   };
@@ -283,7 +277,6 @@ export const placeOrder = (token, rawData) => {
         dispatch(initOrder(token));
         dispatch(setOrderProcess(json));
         dispatch(actionCreators.deleteAllCart(token));
-        console.log(json);
       })
       .catch((error) => console.log("error", error));
   };
@@ -318,7 +311,6 @@ export const initOrder = (token) => {
         const json = JSON.parse(res);
         const data = json.data;
         dispatch(setOrder(data.data));
-        // console.log(data.data);
       })
       .catch((error) => console.log("error", error));
   };
@@ -345,7 +337,6 @@ export const cancelOrder = (token, orderId) => {
         const json = JSON.parse(res);
         dispatch(setMyOrderProcess(json));
         dispatch(initOrder(token));
-        console.log(json);
       })
       .catch((error) => console.log("error", error));
   };
@@ -379,7 +370,6 @@ export const detailOrder = (token, orderId) => {
         const json = JSON.parse(res);
         const data = json.data;
         dispatch(setDetailOrder(data));
-        console.log(json);
       })
       .catch((error) => console.log("error", error));
   };
